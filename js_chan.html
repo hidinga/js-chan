@@ -1,0 +1,58 @@
+<script>
+
+function chanTest(str){
+
+	const taskList = [];        
+	taskList.push(() => {
+		console.log(`${str} start`);
+	})
+	
+	/*　任务列表　=> 添加一个setTimeout方法　*/
+	
+	function wait(time){
+		taskList.push(() => new Promise(resolve => {
+			setTimeout(resolve, time * 1000);
+		}))
+		return this;
+	}
+	
+	/*　任务列表　=> 添加执行任务方法　*/
+	
+	function doSomething(action){
+		taskList.push(() => {
+			console.log(action);
+		})
+		return this;
+	}
+	
+	/*　任务列表　=> 添加任务到队列头　*/
+	
+	function waitFirst(time){
+		taskList.unshift(() => new Promise(resolve => {
+			setTimeout(resolve, time * 1000);
+		}))
+		return this;
+	}
+	
+	/*　任务列表　=> 开始执行任务　*/
+	
+	function execute(){
+		(async () => {
+			for(const task of taskList){
+				await task();
+			}
+		})()
+		return this;
+	}
+	
+	return {
+		wait,
+		do:doSomething,
+		waitFirst,
+		execute
+	}
+}
+
+chanTest("task").wait(5).do("commit").waitFirst(2).execute();
+
+</script>
