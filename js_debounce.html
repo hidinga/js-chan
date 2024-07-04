@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+    <div>
+        原始：<input id="unDebounce" />
+    </div>
+    <div>
+        防抖：<input id="debounce" />
+    </div>
+    <div>
+        节流：<input id="throttle" />
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+function ajax(args) {
+	console.log(
+		new Date().toJSON().substr(0, 19).replace('T', ' ') + " => " + args
+	)
+}
+
+/* 获取元素 */
+
+const domDefault = document.querySelector("#unDebounce");
+const domDebounce = document.querySelector("#debounce");
+const domThrottle = document.querySelector("#throttle");
+
+// 标准事件　（e.target.value 为　input 的值）
+
+domDefault.addEventListener('keyup', function (e) {
+	ajax(e.target.value)
+})
+
+// 防抖事件
+
+domDebounce.addEventListener('keyup', debounce(ajax, 500));
+
+function debounce(fn, delay) {
+
+	/* 实际上　addEventListener　绑定的为下面返回的方法　*/
+	
+    return function (event) {
+	
+        let t = this							// 此时　this 为　dom　元素
+        let e = event							// 此时　event 为　KeyboardEvent　事件
+		clearTimeout(fn.id)						// 清除　setTimeout 的　ID
+		
+		// fn.id 节约一个全局的　id　变量
+		
+        fn.id = setTimeout(() => {
+            fn.call(t, e.target.value)
+        }, delay)
+    }
+}
+
+// 节流事件
+
+domThrottle.addEventListener('keyup', throttle(ajax, 500))
+
+function throttle(fn, delay) {
+
+	// 函数内全局　last = 最后一次执行时间
+	// 函数内全局　deferTimer
+	
+    let last
+    
+	return function (event) {
+	
+        let t = this							// 此时　this 为　dom　元素
+        let e = event							// 此时　event 为　KeyboardEvent　事件
+        let now = +new Date()					// 此时　now　为时间戳
+
+        if (last && now < last + delay) {
+            clearTimeout(fn.timeId)
+            fn.timeId = setTimeout(function () {
+                last = now
+                fn.apply(t, [e.target.value])
+            }, delay)
+        }　else {
+            last = now
+            fn.apply(t, [e.target.value])
+        }
+    }
+}
+
+</script>
