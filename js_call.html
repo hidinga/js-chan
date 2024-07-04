@@ -1,0 +1,23 @@
+<script type="text/javascript">
+
+function add(a,b) {
+    if(typeof(this) == "function"){
+        this(a,b);                          // 此例为调用 sub, 结果 2
+    } else {
+        console.log(this.x);                // 结果 7
+    }
+    console.log(a+b);                       // 结果 4
+}
+
+function sub(a,b) {
+    console.log(a-b);
+}
+
+let c = {x:7, y:9}
+
+/* add.call(sub,3,1) == add(3,1) */
+  
+add.call(sub,3,1);                          // 结果为 调用　sub　输出 2　，然后　add　自身输出 4
+add.call(c,3,1);                            // 结果为　打印　c.x 7　，然后　add　自身输出 4
+
+</script>
