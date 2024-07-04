@@ -1,0 +1,16 @@
+<script type="text/javascript">
+
+const getA = new Promise((resolve, reject) => { 
+  setTimeout(function(){
+      //reject('Error in getA');
+      resolve(2);
+  }, 2000) 
+})
+
+// 执行
+
+getA.then(function(data){
+    console.log("C : "+ data)               // C : 2
+}).catch(e => console.log(e))
+
+</script>
