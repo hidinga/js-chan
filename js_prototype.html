@@ -1,0 +1,14 @@
+<script type="text/javascript">
+
+	/*　在数字上增加　add 方法　*/
+	
+	Number.prototype.add = function(n){
+		return this.valueOf()+n
+	}
+	
+	const a = 100;
+	const b = a.add(1)
+	
+	console.log(b)				// 输出结果 101
+
+</script>
