@@ -1,0 +1,30 @@
+<script type="text/javascript">
+
+/*　属性定义了　value 就不能再定义　get() */
+
+function Test(){
+
+	this.a = 1;
+	this.b = 2;
+	
+	// 通过自定义属性来进行求和计算
+	
+	Object.defineProperty(this, "sum", {
+		get: function(){
+			return this.a + this.b
+		},
+		set: function(n){
+			this.b = n;
+			return this.b;
+		}
+	})
+}
+
+// 实例
+
+let obj = new Test();
+obj.sum = 996;								// 调用 sum 的 set 方法
+
+console.log( obj.sum )						// 997
+
+</script>
