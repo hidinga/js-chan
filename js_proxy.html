@@ -1,0 +1,35 @@
+<html>
+<body>
+	<input type="text" />
+	<span></span>
+</body>
+
+<script>
+	
+	const a = document.querySelector("input");	// 获取 input
+	const b = document.querySelector("span");		// 获取 span
+	const c = {}									              // 存放数据
+	
+	// 实现双向绑定代理
+	
+	const obj = new Proxy(c, {
+		get(target, key){
+			return Reflect.get(target, key)
+		},
+		set(target, key, value){
+			a.value = value
+			b.innerText = value
+			return Reflect.set(target, key, value)
+		}
+	})
+	
+	// 绑定事件
+ 	
+	a.addEventListener('input', e => {
+		obj.text = e.target.value
+	})
+	
+	obj.text = "hello"
+	
+</script>
+</html>
