@@ -1,0 +1,76 @@
+<html>
+<head>
+	<style>
+		:root {
+			background-color:#000;
+			color:#fff;
+			padding-top: 5em;
+		}
+		p {
+			margin-block-start: 0;
+			margin-block-end: 0;
+		}
+		.container {
+			width: 600px; 
+			margin: 0 auto;
+			line-height: 2;
+			position: relative;
+		}
+		.eraser {
+			position: absolute;
+			inset: 0;
+		}
+		@property --p{
+			syntax: '<percentage>';
+			initial-value: 0%;
+			inherits: false;
+		}
+		.text {
+			background: linear-gradient(
+				to right, 
+				transparent var(--p), 
+				#000 calc(var(--p) + 30px)
+			);
+			color: transparent;
+			animation: erase 15s linear forwards;
+		}
+		@keyframes erase {
+			to {
+				--p: 100%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<p>
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world, 
+			hello world, hello world, hello world, hello world
+		</p>
+		<p class="eraser">
+			<span class="text">
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world, 
+				hello world, hello world, hello world, hello world
+			</span>
+		</p>
+	</div>
+</body>
+</html>
