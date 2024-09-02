@@ -1,0 +1,12 @@
+<script type="text/javascript">
+
+// apply、call 二者作用完全一样，只是接受参数的方式不一样
+// func.call(this, arg1, arg2);
+// func.apply(this, [arg1, arg2])
+
+var numbers = [5, 458, 120, -215]; 
+
+console.log( Math.max.apply(Math, numbers) );           // 458
+console.log( Math.max.call(Math, 5, 458, 120, -215) );  // 458
+ 
+</script>

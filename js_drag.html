@@ -1,0 +1,131 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		
+		#app {display: flex;}
+		.left {margin-right:40px;}
+		
+		#aaa {width:100px; height:50px; background-color:#ffb4b4; line-height:50px; text-align:center;}
+		#bbb {width:100px; height:50px; background-color:#ababf7; line-height:50px; text-align:center;}
+		
+		#ccc {width:500px; height:300px; background-color:#fffef1;}
+		
+		table {width:100%; height:100%; border-collapse: collapse; table-layout: fixed;}
+		table tr td {border:1px solid #999; padding:7px; min-height:25%; height:25%}
+		
+		.drop-over {background-color: #ffeabb;}
+	</style>
+</head>
+<body>
+
+	<div id="app">
+	
+		<div class="left">
+			<div id="aaa" data-effect="copy" draggable="true">语文</div>
+			<div id="bbb" data-effect="copy" draggable="true">数学</div>
+		</div>
+
+		<div id="ccc">
+			<table>
+				<tr>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+				</tr>
+				<tr>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+				</tr>
+				<tr>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+				</tr>
+				<tr>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+					<td data-drop="copy"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+
+	/*  dataset　用于获取节点的属性　data-
+	 *  
+	 */
+	
+	const container = document.querySelector("#app");
+	
+	let source;			// 拖动的元素
+
+	// 开始拖动事件
+	
+	container.ondragstart = (e) => {
+	
+		source = e.target;
+		e.dataTransfer.effactAllowed = "copy";			// 拖动的样式
+		
+		console.log("start", e.target);
+	};
+	
+	container.ondragover = (e) => {
+		e.preventDefault();
+		
+		//console.log("over", e.target);
+	};
+	
+	container.ondragenter = (e) => {
+	
+		// 检查包含　data-drop 不包含的话不可以　drop
+		
+		if(!e.target.dataset || !e.target.dataset.drop){
+			return;
+		}
+		
+		// 清除样式
+		
+		document.querySelectorAll(".drop-over").forEach( (node) => {
+			node.classList.remove("drop-over");
+		});
+		
+		// 增加样式
+		
+		if(source.dataset.effect === e.target.dataset.drop){
+			e.target.classList.add("drop-over");
+		}
+
+		console.log("enter", e.target);
+	};
+	
+	container.ondrop = (e) => {
+	
+		// 检查包含　data-drop 不包含的话不可以　drop
+		
+		if(!(e.target.dataset && e.target.dataset.drop) && !(e.target.parentNode.dataset && e.target.parentNode.dataset.drop)){
+			return;
+		}
+		
+		// 复制然后添加节点
+		
+		const newNode = source.cloneNode(true);
+		let p = e.target						// 父节点
+		
+		if(e.target.parentNode.dataset && e.target.parentNode.dataset.drop){
+			p = e.target.parentNode
+		}
+		p.innerHTML = ""
+		p.appendChild( newNode );
+		
+		console.log("drop", e.target);
+	};
+</script>
